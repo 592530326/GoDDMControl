@@ -1,4 +1,4 @@
-module GoDDMControl
+module github.com/592530326/GoDDMControl
 
 go 1.23.2
 

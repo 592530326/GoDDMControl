@@ -1,7 +1,7 @@
 package main
 
 import (
-	"GoDDMControl/DDM"
+	"github.com/592530326/GoDDMControl/DDM"
 	"time"
 )
 
