@@ -21,6 +21,8 @@ var G_云UIUUID = ""
 var G_设备UUID存储路径 = "DeviceInfo"
 var DEBUG = true
 var G_设备UUID string
+var PKG = "window.pc.golang"
+var G_用户后台用户名 = ""
 
 func LOG(内容 ...any) {
 	if DEBUG == false {
@@ -92,9 +94,9 @@ func F初始化(IP地址 string, PORT端口 string, 云控UUID, 作者UUID, 云U
 		return false
 	}
 	var 请求地址 = "http://" + IP + ":" + PORT + "/DeviceInit"
-	var pkg = "window.pc.golang"
+
 	var postDta = "DeviceInfo=%s&UIProjectUUID=%s&UserUUID=%s&PackageName=%s&CloudControlUUID=%s"
-	postDta = fmt.Sprintf(postDta, 设备UUID, 云UIUUID, 作者UUID, pkg, 云控UUID)
+	postDta = fmt.Sprintf(postDta, 设备UUID, 云UIUUID, 作者UUID, PKG, 云控UUID)
 	请求结果, code := HttpPost(请求地址, postDta, 超时时间)
 
 	if 初始化结果, err := JsonDecode([]byte(请求结果)); code == 200 && err == nil {
