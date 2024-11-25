@@ -135,7 +135,7 @@ func F云控_连接云控系统(云控回调函数 func(自定义云控命令名
 	go func() {
 		for {
 			urlStr := "ws://" + IP + ":" + PORT + "/Control"
-			LOG(urlStr)
+			//LOG(urlStr)
 			云控连接, _, err := websocket.DefaultDialer.Dial(urlStr, nil)
 			if err != nil {
 				LOG("云控连接失败,3秒后重连...", err.Error())
@@ -161,7 +161,7 @@ func F云控_连接云控系统(云控回调函数 func(自定义云控命令名
 			}
 			for {
 				_, message, err := 云控连接.ReadMessage()
-				LOG(string(message))
+				//LOG(string(message))
 				if err != nil {
 					云控连接.Close()
 					LOG("云控与服务器断开连接...", err.Error())
