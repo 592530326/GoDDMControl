@@ -67,6 +67,19 @@ func HttpPost(请求地址, 数据 string, 超时时间 int) (string, int) {
 	}
 	return string(body), resp.StatusCode
 }
+func HttpGet(请求地址 string, 超时时间 int) (string, int) {
+	http.DefaultClient.Timeout = time.Second * time.Duration(超时时间)
+	resp, err := http.Get(请求地址)
+	if err != nil {
+		return "", -1
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", -1
+	}
+	return string(body), resp.StatusCode
+}
 func JsonDecode(数据 []byte) (map[string]interface{}, error) {
 	var m map[string]interface{}
 	err := json.Unmarshal(数据, &m)
