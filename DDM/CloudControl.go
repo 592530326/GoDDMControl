@@ -153,7 +153,7 @@ func F云控_连接云控系统(云控回调函数 func(自定义云控命令名
 			m["PackageName"] = PKG
 			DDMWSConn.Send(m)
 			if G_用户后台用户名 != "" {
-				m = make(map[string]interface{})
+				var m = make(map[string]interface{})
 				m["Cmd"] = "BindUserAdminNameReq"
 				m["UserAdminName"] = G_用户后台用户名
 				m["DeviceInfo"] = 设备UUID
@@ -174,13 +174,17 @@ func F云控_连接云控系统(云控回调函数 func(自定义云控命令名
 				}
 				op, ok := data["op"].(float64)
 				if ok {
+					SessinId, SessinIdok := data["SessinId"].(string)
+					if SessinIdok {
+						DDMWSConn.DDMcontrolSessinId = SessinId
+					}
 					switch op {
 					case 200005: //云控自定义命令
 						OrderName, _ := data["OrderName"].(string)
 						OrderValue, _ := data["OrderValue"].(string)
 
 						go G_云控回调函数(OrderName, OrderValue)
-						m = make(map[string]interface{})
+						var m = make(map[string]interface{})
 						m["DeviceInfo"] = DDMWSConn.DeviceInfo
 						m["op"] = 200006
 						err := DDMWSConn.Send(m)

@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -32,8 +33,29 @@ func F用户云数据_读取一条未读取的数据(Token string, 项目名称 
 	}
 	Where := JsonEncode(table条件)
 	var postData = "SetFalse=%t&DeviceInfo=%s&Where=%s&Token=%s&ProjectName=%s"
-	postData = fmt.Sprintf(postData, 当无数据时设置数据为未读取, 设备UUID, Where, Token, 项目名称)
+	postData = fmt.Sprintf(postData, 当无数据时设置数据为未读取, 设备UUID, Where, Token, url.QueryEscape(项目名称))
 	请求结果, code := HttpPost("http://"+IP+":"+PORT+"/userCloudData/v2/script/readOneDataSetRead", postData, 60)
+	if 结果, err := JsonDecode([]byte(请求结果)); code == 200 && err == nil {
+		return 结果, nil
+	} else {
+		return nil, errors.New(请求结果)
+	}
+}
+
+func F用户云数据_搜索数据(Token string, 项目名称 string, table条件 map[string]interface{}, 页编号, 每页数量 int) (map[string]interface{}, error) {
+	设备UUID, err := F读取设备UUID()
+	if err != nil {
+		LOG("连接云控,读取设备UUID出现错误", err)
+		return nil, err
+	}
+	Where := JsonEncode(table条件)
+
+	var postData = "DeviceInfo=%s&Where=%s&Page=%d&PageSize=%d&Token=%s&ProjectName=%s"
+
+	postData = fmt.Sprintf(postData, 设备UUID, Where, 页编号, 每页数量, Token, url.QueryEscape(项目名称))
+	LOG(postData)
+	请求结果, code := HttpPost("http://"+IP+":"+PORT+"/userCloudData/v2/script/readManyData", postData, 60)
+	LOG(请求结果)
 	if 结果, err := JsonDecode([]byte(请求结果)); code == 200 && err == nil {
 		return 结果, nil
 	} else {
