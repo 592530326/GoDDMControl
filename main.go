@@ -57,6 +57,7 @@ func mapToJSON(tempMap *map[string]interface{}) string {
 	return string(data)
 }
 func main() {
+
 	DDM.F初始化("api.privateapi.xyz", "9000", "68896ff898d74a91b2b8e6f8a5b850dd", "d99f33a3-4b17-49f8-891a-bedf77886598", "", 60)
 
 	//DDM.F卡密_卡密登录("6a012cc5-917d-4bcb-b83d-975b3955cd07", "a0ee6b4e-7eb2-4fb0-953b-694aa50a5a0e", "2xvd5h", 心跳回调函数)
